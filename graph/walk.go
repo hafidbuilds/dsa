@@ -94,3 +94,40 @@ func (w *Walker[T]) bfs(start T, visit func(T)) {
 		}
 	}
 }
+
+func (w *Walker[T]) HasCycle() bool {
+	stack := sets.New[T]()
+	visited := sets.New[T]()
+
+	var visit func(T) bool
+	visit = func(n T) bool {
+		if stack.Exists(n) {
+			return true
+		}
+		if visited.Exists(n) {
+			return false
+		}
+
+		visited.Add(n)
+		stack.Add(n)
+
+		for neighbor := range w.graph.Neighbors(n) {
+			if visit(neighbor) {
+				return true
+			}
+		}
+
+		stack.Del(n)
+		return false
+	}
+
+	for n := range w.graph.Vertex {
+		if !visited.Exists(n) {
+			if visit(n) {
+				return true
+			}
+		}
+	}
+
+	return false
+}
