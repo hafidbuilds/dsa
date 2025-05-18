@@ -30,13 +30,13 @@ func randSample() int {
 }
 
 func AppendSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Tailer[E]
-		adt.Appender[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Tailer[E]
+	adt.Appender[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -59,13 +59,13 @@ func AppendSimulator[
 }
 
 func PrependSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Header[E]
-		adt.Prepender[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Header[E]
+	adt.Prepender[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -88,14 +88,14 @@ func PrependSimulator[
 }
 
 func PopSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Emptier
-		adt.Popper[E]
-		adt.Appender[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Emptier
+	adt.Popper[E]
+	adt.Appender[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -132,14 +132,14 @@ func PopSimulator[
 }
 
 func ShiftSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Emptier
-		adt.Shifter[E]
-		adt.Prepender[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Emptier
+	adt.Shifter[E]
+	adt.Prepender[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -176,13 +176,13 @@ func ShiftSimulator[
 }
 
 func GetSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Getter[E]
-		adt.Appender[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Getter[E]
+	adt.Appender[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -216,14 +216,14 @@ func GetSimulator[
 }
 
 func SetSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Getter[E]
-		adt.Setter[E]
-		adt.Appender[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Getter[E]
+	adt.Setter[E]
+	adt.Appender[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -266,13 +266,13 @@ func SetSimulator[
 }
 
 func IterSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Appender[E]
-		adt.Iterator[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Appender[E]
+	adt.Iterator[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -305,13 +305,13 @@ func IterSimulator[
 }
 
 func IterBackwardSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Appender[E]
-		adt.BackwordIterator[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Appender[E]
+	adt.BackwordIterator[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -346,13 +346,13 @@ func IterBackwardSimulator[
 }
 
 func BracketStringSimulator[
-	E any,
-	Abstract interface {
-		adt.Sizer
-		adt.Appender[E]
-		fmt.Stringer
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Sizer
+	adt.Appender[E]
+	fmt.Stringer
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -380,14 +380,14 @@ func BracketStringSimulator[
 }
 
 func SortSimulator[
-	E cmp.Ordered,
-	Abstract interface {
-		adt.Sizer
-		adt.Getter[E]
-		adt.Setter[E]
-		adt.Appender[E]
-	},
-	Constructor func() Abstract,
+E cmp.Ordered,
+Abstract interface {
+	adt.Sizer
+	adt.Getter[E]
+	adt.Setter[E]
+	adt.Appender[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -438,15 +438,15 @@ func (s *sortable[E]) Swap(i, j int) {
 }
 
 func DoublingGrowSimulator[
-	E cmp.Ordered,
-	Abstract interface {
-		adt.Sizer
-		adt.Caper
-		adt.Appender[E]
-		adt.Prepender[E]
-		adt.Iterator[E]
-	},
-	Constructor func() Abstract,
+E cmp.Ordered,
+Abstract interface {
+	adt.Sizer
+	adt.Caper
+	adt.Appender[E]
+	adt.Prepender[E]
+	adt.Iterator[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -499,11 +499,11 @@ func DoublingGrowSimulator[
 }
 
 func StackSimulator[
-	E any,
-	Abstract interface {
-		adt.Stack[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Stack[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -540,11 +540,11 @@ func StackSimulator[
 }
 
 func QueueSimulator[
-	E any,
-	Abstract interface {
-		adt.Queue[E]
-	},
-	Constructor func() Abstract,
+E any,
+Abstract interface {
+	adt.Queue[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -583,14 +583,14 @@ func QueueSimulator[
 }
 
 func InsertRemoveSimulator[
-	E comparable,
-	Abstract interface {
-		adt.Sizer
-		adt.Inserter[E]
-		adt.Remover[E]
-		adt.Getter[E]
-	},
-	Constructor func() Abstract,
+E comparable,
+Abstract interface {
+	adt.Sizer
+	adt.Inserter[E]
+	adt.Remover[E]
+	adt.Getter[E]
+},
+Constructor func() Abstract,
 ](
 	c Constructor,
 	g Generator[E],
@@ -641,16 +641,16 @@ func InsertRemoveSimulator[
 }
 
 func HashSetSimulator[
-	T comparable,
-	Set interface {
-		adt.Sizer
-		adt.Emptier
-		adt.Adder[T]
-		adt.Deleter[T]
-		adt.Exister[T]
-		adt.Iterator[T]
-	},
-	Constructor func() Set,
+T comparable,
+Set interface {
+	adt.Sizer
+	adt.Emptier
+	adt.Adder[T]
+	adt.Deleter[T]
+	adt.Exister[T]
+	adt.Iterator[T]
+},
+Constructor func() Set,
 ](
 	c Constructor,
 	g Generator[T],
@@ -703,18 +703,18 @@ func HashSetSimulator[
 }
 
 func HashMapSimulator[
-	K comparable,
-	V comparable,
-	Map interface {
-		Put(K, V)
-		Get(K) (V, bool)
-		adt.Sizer
-		adt.Emptier
-		adt.Deleter[K]
-		adt.Keys[K]
-		adt.Exister[K]
-	},
-	Constructor func() Map,
+K comparable,
+V comparable,
+Map interface {
+	Put(K, V)
+	Get(K) (V, bool)
+	adt.Sizer
+	adt.Emptier
+	adt.Deleter[K]
+	adt.Keys[K]
+	adt.Exister[K]
+},
+Constructor func() Map,
 ](
 	c Constructor,
 	keyGen Generator[K],
@@ -776,6 +776,166 @@ func HashMapSimulator[
 			deleted++
 		}
 		assert.Equal(t, len(truth), m.Size())
+	}
+}
+
+func BSTInsertSimulator[
+E cmp.Ordered,
+Tree interface {
+	Search(E) bool
+	adt.Adder[E]
+	adt.Sizer
+},
+Constructor func() Tree,
+](
+	c Constructor,
+	g Generator[E],
+) Runner {
+	return func(t *testing.T) {
+		t.Helper()
+
+		tree := c()
+		assert.Zero(t, tree.Size())
+
+		seen := make(map[E]struct{})
+		n := randSample()
+
+		// Insert random values
+		for range n {
+			v := g.New()
+			tree.Add(v)
+			seen[v] = struct{}{}
+		}
+
+		assert.Equal(t, len(seen), tree.Size())
+
+		for v := range seen {
+			assert.True(t, tree.Search(v), "tree should contain %v", v)
+		}
+	}
+}
+
+func BSTInOrderSimulator[
+E cmp.Ordered,
+Tree interface {
+	Add(E)
+	InOrder(func(E) bool)
+},
+Constructor func() Tree,
+](
+	c Constructor,
+	g Generator[E],
+) Runner {
+	return func(t *testing.T) {
+		tree := c()
+		n := randSample()
+		data := make([]E, 0, n)
+		seen := map[E]struct{}{}
+
+		for range n {
+			v := g.New()
+			tree.Add(v)
+			if _, ok := seen[v]; !ok {
+				seen[v] = struct{}{}
+				data = append(data, v)
+			}
+		}
+
+		expected := append([]E(nil), data...)
+		slices.Sort(expected)
+
+		got := slices.Collect(tree.InOrder)
+		assert.Equal(t, expected, got)
+	}
+}
+
+func BSTMinMaxSimulator[
+E cmp.Ordered,
+Tree interface {
+	Add(E)
+	Min() (E, bool)
+	Max() (E, bool)
+},
+Constructor func() Tree,
+](
+	c Constructor,
+	g Generator[E],
+) Runner {
+	return func(t *testing.T) {
+		tree := c()
+		n := randSample()
+		var values []E
+		seen := map[E]struct{}{}
+
+		for range n {
+			v := g.New()
+			tree.Add(v)
+			if _, ok := seen[v]; !ok {
+				seen[v] = struct{}{}
+				values = append(values, v)
+			}
+		}
+
+		slices.Sort(values)
+		minValue, ok := tree.Min()
+		assert.True(t, ok)
+		assert.Equal(t, values[0], minValue)
+
+		maxValue, ok := tree.Max()
+		assert.True(t, ok)
+		assert.Equal(t, values[len(values)-1], maxValue)
+	}
+}
+
+func BSTDeleteSimulator[
+E cmp.Ordered,
+Tree interface {
+	Add(E)
+	Del(E)
+	Search(E) bool
+	Size() int
+	InOrder(func(E) bool)
+},
+Constructor func() Tree,
+](
+	c Constructor,
+	g Generator[E],
+) Runner {
+	return func(t *testing.T) {
+		t.Helper()
+
+		tree := c()
+		n := randSample()
+		var values []E
+		seen := map[E]struct{}{}
+
+		for range n {
+			v := g.New()
+			tree.Add(v)
+			if _, ok := seen[v]; !ok {
+				seen[v] = struct{}{}
+				values = append(values, v)
+			}
+		}
+
+		initialSize := len(values)
+		toDelete := values[:initialSize/2]
+
+		deleted := map[E]struct{}{}
+		for _, v := range toDelete {
+			tree.Del(v)
+			assert.False(t, tree.Search(v))
+			deleted[v] = struct{}{}
+		}
+
+		assert.Equal(t, initialSize-len(deleted), tree.Size())
+
+		// In-order traversal must match remaining sorted values
+		expected := slices.Clone(values[initialSize/2:])
+		slices.Sort(expected)
+
+		got := slices.Collect(tree.InOrder)
+		assert.Equal(t, expected, got)
 	}
 }
 
