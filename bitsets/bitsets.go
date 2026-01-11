@@ -41,7 +41,6 @@ package bitsets
 
 import (
 	"fmt"
-	"math/bits"
 	"strings"
 )
 
@@ -113,9 +112,12 @@ func New(numOfBits int) *BitSet {
 //   - space: O(1)
 //
 // Panics if pos < 0 or pos >= Len().
+//
+// SCORE: 10
 func (b *BitSet) Add(pos int) {
-	idx, offset := b.index(pos)
-	b.bitfields[idx] |= 1 << offset
+	// hint: 1) idx, offset := b.index(pos)
+	//       2) b.bitfields[idx] |= (1 << offset)
+	panic("todo: please implement me!")
 }
 
 // Del removes an integer from the set.
@@ -147,9 +149,12 @@ func (b *BitSet) Add(pos int) {
 //   - space: O(1)
 //
 // Panics if pos < 0 or pos >= Len().
+//
+// SCORE: 10
 func (b *BitSet) Del(pos int) {
-	idx, offset := b.index(pos)
-	b.bitfields[idx] &^= 1 << offset
+	// hint: 1) idx, offset := b.index(pos)
+	//       2) b.bitfields[idx] &^= (1 << offset)   // AND NOT (bit clear)
+	panic("todo: please implement me!")
 }
 
 // Toggle flips the membership of an integer.
@@ -179,9 +184,12 @@ func (b *BitSet) Del(pos int) {
 //   - space: O(1)
 //
 // Panics if pos < 0 or pos >= Len().
+//
+// SCORE: 10
 func (b *BitSet) Toggle(pos int) {
-	idx, offset := b.index(pos)
-	b.bitfields[idx] ^= 1 << offset
+	// hint: 1) idx, offset := b.index(pos)
+	//       2) b.bitfields[idx] ^= (1 << offset)   // XOR flips the bit
+	panic("todo: please implement me!")
 }
 
 // Exists checks whether an integer is in the set.
@@ -204,9 +212,12 @@ func (b *BitSet) Toggle(pos int) {
 //   - space: O(1)
 //
 // Panics if pos < 0 or pos >= Len().
+//
+// SCORE: 10
 func (b *BitSet) Exists(pos int) bool {
-	idx, offset := b.index(pos)
-	return (b.bitfields[idx] & (1 << offset)) != 0
+	// hint: 1) idx, offset := b.index(pos)
+	//       2) return (b.bitfields[idx] & (1 << offset)) != 0
+	panic("todo: please implement me!")
 }
 
 // Reset clears all bits, removing all elements.
@@ -278,12 +289,13 @@ func (b *BitSet) String() string {
 // complexity:
 //   - time : O(Len() / 64)
 //   - space: O(1)
+//
+// SCORE: 10
 func (b *BitSet) Count() int {
-	count := 0
-	for _, field := range b.bitfields {
-		count += bits.OnesCount64(field)
-	}
-	return count
+	// hint: sum := 0; for each uint64 in b.bitfields:
+	//       sum += bits.OnesCount64(field)  // popcount
+	//       return sum
+	panic("todo: please implement me!")
 }
 
 // Size returns the number of elements in the set.
@@ -339,15 +351,14 @@ func (b *BitSet) Iter(yield func(int) bool) {
 //   - space: O(Len() / 64)
 //
 // Panics if bitsets have different lengths.
+//
+// SCORE: 15
 func (b *BitSet) Union(other *BitSet) *BitSet {
-	if b.Len() != other.Len() {
-		panic("BitSet.Union: bitsets must have same length")
-	}
-	result := New(b.Len())
-	for i := range b.bitfields {
-		result.bitfields[i] = b.bitfields[i] | other.bitfields[i]
-	}
-	return result
+	// hint: 1) check same length, panic if different
+	//       2) result := New(b.Len())
+	//       3) for each i: result.bitfields[i] = b.bitfields[i] | other.bitfields[i]
+	//       4) return result
+	panic("todo: please implement me!")
 }
 
 // Intersection returns a new BitSet with elements in both sets.
@@ -364,15 +375,14 @@ func (b *BitSet) Union(other *BitSet) *BitSet {
 //   - space: O(Len() / 64)
 //
 // Panics if bitsets have different lengths.
+//
+// SCORE: 20
 func (b *BitSet) Intersection(other *BitSet) *BitSet {
-	if b.Len() != other.Len() {
-		panic("BitSet.Intersection: bitsets must have same length")
-	}
-	result := New(b.Len())
-	for i := range b.bitfields {
-		result.bitfields[i] = b.bitfields[i] & other.bitfields[i]
-	}
-	return result
+	// hint: 1) check same length, panic if different
+	//       2) result := New(b.Len())
+	//       3) for each i: result.bitfields[i] = b.bitfields[i] & other.bitfields[i]
+	//       4) return result
+	panic("todo: please implement me!")
 }
 
 // Disjoint returns true if the two sets have no common elements.
@@ -392,16 +402,13 @@ func (b *BitSet) Intersection(other *BitSet) *BitSet {
 //   - space: O(1)
 //
 // Panics if bitsets have different lengths.
+//
+// SCORE: 15
 func (b *BitSet) Disjoint(other *BitSet) bool {
-	if b.Len() != other.Len() {
-		panic("BitSet.Disjoint: bitsets must have same length")
-	}
-	for i := range b.bitfields {
-		if b.bitfields[i]&other.bitfields[i] != 0 {
-			return false
-		}
-	}
-	return true
+	// hint: 1) check same length, panic if different
+	//       2) for each i: if (b.bitfields[i] & other.bitfields[i]) != 0, return false
+	//       3) return true (no common bits)
+	panic("todo: please implement me!")
 }
 
 func (b *BitSet) index(pos int) (int, int) {

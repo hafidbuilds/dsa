@@ -41,11 +41,7 @@
 package sets
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/josestg/dsa/hashmap"
-	"github.com/josestg/dsa/sequence"
 )
 
 // none is an empty struct used as placeholder value.
@@ -107,8 +103,12 @@ func NewWith[E comparable](opts Options[E]) *HashSet[E] {
 // complexity:
 //   - time : O(1) average
 //   - space: O(1)
+//
+// SCORE: 10
 func (s *HashSet[E]) Add(data E) {
-	s.backend.Put(data, none{})
+	// hint: call s.backend.Put(data, none{})
+	//       - the key is the element, value is empty struct
+	panic("todo: please implement me!")
 }
 
 // Del removes an element from the set.
@@ -128,8 +128,11 @@ func (s *HashSet[E]) Add(data E) {
 // complexity:
 //   - time : O(1) average
 //   - space: O(1)
+//
+// SCORE: 10
 func (s *HashSet[E]) Del(data E) {
-	s.backend.Del(data)
+	// hint: call s.backend.Del(data)
+	panic("todo: please implement me!")
 }
 
 // Exists checks if an element is in the set.
@@ -142,8 +145,11 @@ func (s *HashSet[E]) Del(data E) {
 // complexity:
 //   - time : O(1) average
 //   - space: O(1)
+//
+// SCORE: 10
 func (s *HashSet[E]) Exists(data E) bool {
-	return s.backend.Exists(data)
+	// hint: return s.backend.Exists(data)
+	panic("todo: please implement me!")
 }
 
 // Size returns the number of elements in the set.
@@ -182,17 +188,12 @@ func (s *HashSet[E]) Empty() bool {
 // complexity:
 //   - time : O(n)
 //   - space: O(n)
+//
+// SCORE: 10
 func (s *HashSet[E]) String() string {
-	var buf strings.Builder
-	buf.WriteRune('{')
-	for i, v := range sequence.Enum(s.Iter) {
-		if i > 0 {
-			buf.WriteRune(' ')
-		}
-		_, _ = fmt.Fprint(&buf, v)
-	}
-	buf.WriteRune('}')
-	return buf.String()
+	// hint: use strings.Builder, iterate with sequence.Enum(s.Iter)
+	//       format as "{elem1 elem2 ...}"
+	panic("todo: please implement me!")
 }
 
 // Iter iterates over all elements in the set.
@@ -208,12 +209,11 @@ func (s *HashSet[E]) String() string {
 // complexity:
 //   - time : O(n)
 //   - space: O(1)
+//
+// SCORE: 10
 func (s *HashSet[E]) Iter(yield func(E) bool) {
-	for e := range s.backend.Iter {
-		if !yield(e.Key()) {
-			break
-		}
-	}
+	// hint: iterate s.backend.Iter, yield e.Key() for each entry
+	panic("todo: please implement me!")
 }
 
 // Union returns a new set with elements from both sets.
@@ -236,15 +236,14 @@ func (s *HashSet[E]) Iter(yield func(E) bool) {
 // complexity:
 //   - time : O(n + m) where n, m are sizes of the two sets
 //   - space: O(n + m) for the result
+//
+// SCORE: 15
 func (s *HashSet[E]) Union(s2 *HashSet[E]) *HashSet[E] {
-	union := New[E]()
-	for v := range s.Iter {
-		union.Add(v)
-	}
-	for v := range s2.Iter {
-		union.Add(v)
-	}
-	return union
+	// hint: 1) create new empty set: union := New[E]()
+	//       2) iterate s, add each element to union
+	//       3) iterate s2, add each element to union
+	//       4) return union
+	panic("todo: please implement me!")
 }
 
 // Intersection returns a new set with elements in both sets.
@@ -267,20 +266,14 @@ func (s *HashSet[E]) Union(s2 *HashSet[E]) *HashSet[E] {
 // complexity:
 //   - time : O(min(n, m)) - iterates smaller set
 //   - space: O(min(n, m)) for the result
+//
+// SCORE: 20
 func (s *HashSet[E]) Intersection(s2 *HashSet[E]) *HashSet[E] {
-	intersection := New[E]()
-	var left, right *HashSet[E]
-	if s.Size() < s2.Size() {
-		left, right = s, s2
-	} else {
-		left, right = s2, s
-	}
-	for v := range left.Iter {
-		if right.Exists(v) {
-			intersection.Add(v)
-		}
-	}
-	return intersection
+	// hint: 1) create new empty set: intersection := New[E]()
+	//       2) choose smaller set to iterate (efficiency)
+	//       3) for each element in smaller set, if other.Exists(v), add to result
+	//       4) return intersection
+	panic("todo: please implement me!")
 }
 
 // Disjoint returns true if the two sets have no common elements.
@@ -296,17 +289,11 @@ func (s *HashSet[E]) Intersection(s2 *HashSet[E]) *HashSet[E] {
 // complexity:
 //   - time : O(min(n, m))
 //   - space: O(1)
+//
+// SCORE: 15
 func (s *HashSet[E]) Disjoint(s2 *HashSet[E]) bool {
-	var left, right *HashSet[E]
-	if s.Size() < s2.Size() {
-		left, right = s, s2
-	} else {
-		left, right = s2, s
-	}
-	for v := range left.Iter {
-		if right.Exists(v) {
-			return false
-		}
-	}
-	return true
+	// hint: 1) choose smaller set to iterate (efficiency)
+	//       2) for each element in smaller set, if other.Exists(v), return false
+	//       3) return true (no common elements found)
+	panic("todo: please implement me!")
 }

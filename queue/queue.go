@@ -101,8 +101,8 @@ func NewWith[E any](b Backend[E]) *Queue[E] {
 // Empty returns true if the queue has no elements.
 //
 //	Empty queue:              Non-empty queue:
-//	front   rear              front             rear
-//	  ↓       ↓                 ↓                 ↓
+//	front   rear              front           rear
+//	  ↓       ↓                 ↓             ↓
 //	┌───────────┐             ┌───┬───┬───┬───┐
 //	│   empty   │             │ A │ B │ C │ D │
 //	└───────────┘             └───┴───┴───┴───┘
@@ -112,15 +112,18 @@ func NewWith[E any](b Backend[E]) *Queue[E] {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 5
 func (q *Queue[E]) Empty() bool {
-	q.ensureBackend()
-	return q.b.Empty()
+	// hint: 1) call ensureBackend()
+	//       2) return q.b.Empty()
+	panic("todo: please implement me!")
 }
 
 // Size returns the number of elements in the queue.
 //
-//	front                 rear
-//	  ↓                     ↓
+//	front              rear
+//	  ↓                ↓
 //	┌───┬───┬───┬───┬───┐
 //	│ A │ B │ C │ D │ E │
 //	└───┴───┴───┴───┴───┘
@@ -130,15 +133,18 @@ func (q *Queue[E]) Empty() bool {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 5
 func (q *Queue[E]) Size() int {
-	q.ensureBackend()
-	return q.b.Size()
+	// hint: 1) call ensureBackend()
+	//       2) return q.b.Size()
+	panic("todo: please implement me!")
 }
 
 // Peek returns the front element without removing it.
 //
 //	front                 rear
-//	  ↓                     ↓
+//	  ↓                 ↓
 //	┌───┬───┬───┬───┬───┐
 //	│ A │ B │ C │ D │ E │
 //	└───┴───┴───┴───┴───┘
@@ -167,29 +173,29 @@ func (q *Queue[E]) Peek() E {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 15
 func (q *Queue[E]) TryPeek() (E, bool) {
-	q.ensureBackend()
-	if q.Empty() {
-		var zero E
-		return zero, false
-	}
-	return q.b.Head(), true
+	// hint: 1) call ensureBackend()
+	//       2) if Empty(), return (zero, false)
+	//       3) return (q.b.Head(), true) - front of queue is head
+	panic("todo: please implement me!")
 }
 
 // Enqueue adds an element to the rear of the queue.
 //
 //	Before Enqueue(F):
 //
-//	front                 rear
-//	  ↓                     ↓
+//	front               rear
+//	  ↓                 ↓
 //	┌───┬───┬───┬───┬───┐
 //	│ A │ B │ C │ D │ E │
 //	└───┴───┴───┴───┴───┘
 //
 //	After Enqueue(F):
 //
-//	front                       rear
-//	  ↓                           ↓
+//	front                  rear
+//	  ↓                    ↓
 //	┌───┬───┬───┬───┬───┬───┐
 //	│ A │ B │ C │ D │ E │ F │
 //	└───┴───┴───┴───┴───┴───┘
@@ -199,9 +205,12 @@ func (q *Queue[E]) TryPeek() (E, bool) {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 15
 func (q *Queue[E]) Enqueue(data E) {
-	q.ensureBackend()
-	q.b.Append(data)
+	// hint: 1) call ensureBackend()
+	//       2) call q.b.Append(data) - enqueue at rear = append to tail
+	panic("todo: please implement me!")
 }
 
 // Dequeue removes and returns the front element.
@@ -245,13 +254,13 @@ func (q *Queue[E]) Dequeue() E {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 20
 func (q *Queue[E]) TryDequeue() (E, bool) {
-	q.ensureBackend()
-	if q.Empty() {
-		var zero E
-		return zero, false
-	}
-	return q.b.Shift(), true
+	// hint: 1) call ensureBackend()
+	//       2) if Empty(), return (zero, false)
+	//       3) return (q.b.Shift(), true) - dequeue from front = shift from head
+	panic("todo: please implement me!")
 }
 
 // String returns the string representation of the queue.
@@ -269,9 +278,12 @@ func (q *Queue[E]) TryDequeue() (E, bool) {
 // complexity:
 //   - time : O(n)
 //   - space: O(n)
+//
+// SCORE: 10
 func (q *Queue[E]) String() string {
-	q.ensureBackend()
-	return q.b.String()
+	// hint: 1) call ensureBackend()
+	//       2) return q.b.String()
+	panic("todo: please implement me!")
 }
 
 // Iter iterates over all elements from front to rear.
@@ -291,13 +303,16 @@ func (q *Queue[E]) String() string {
 // complexity:
 //   - time : O(n)
 //   - space: O(1)
+//
+// SCORE: 10
 func (q *Queue[E]) Iter(yield func(E) bool) {
-	q.ensureBackend()
-	q.b.Iter(yield)
+	// hint: 1) call ensureBackend()
+	//       2) call q.b.Iter(yield)
+	panic("todo: please implement me!")
 }
 
+// SCORE: 20
 func (q *Queue[E]) ensureBackend() {
-	if q.b == nil {
-		q.b = linkedlist.NewDoublyLinkedList[E]()
-	}
+	// hint: if q.b == nil, initialize it with linkedlist.NewDoublyLinkedList[E]()
+	panic("todo: please implement me!")
 }

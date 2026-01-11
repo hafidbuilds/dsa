@@ -161,25 +161,16 @@ func (t *BinarySearchTree[E]) Empty() bool {
 //   - space: O(h) for the recursive call stack
 //     For balanced tree: h = O(log n)
 //     For degenerate tree: h = O(n)
+//
+// SCORE: 20
 func (t *BinarySearchTree[E]) Add(value E) {
-	root, ok := addRecursive(t.root, value)
-	if ok {
-		t.size++
-	}
-	t.root = root
-}
-
-func addRecursive[E cmp.Ordered](node *Node[E], value E) (n *Node[E], ok bool) {
-	if node == nil {
-		return &Node[E]{data: value}, true
-	}
-	if value < node.data {
-		node.left, ok = addRecursive(node.left, value)
-	} else if value > node.data {
-		node.right, ok = addRecursive(node.right, value)
-	}
-	// duplicate: do nothing
-	return node, ok
+	// hint: use recursive helper function:
+	//       1) if node == nil, create new node, return (node, true)
+	//       2) if value < node.data, recurse left
+	//       3) if value > node.data, recurse right
+	//       4) if equal, do nothing (duplicate)
+	//       5) increment size if inserted
+	panic("todo: please implement me!")
 }
 
 // Exists checks if a value exists in the BST.
@@ -204,20 +195,15 @@ func addRecursive[E cmp.Ordered](node *Node[E], value E) (n *Node[E], ok bool) {
 // complexity:
 //   - time : O(h) where h is the height of the tree
 //   - space: O(h) for the recursive call stack
+//
+// SCORE: 15
 func (t *BinarySearchTree[E]) Exists(value E) bool {
-	return existsRecursive(t.root, value)
-}
-
-func existsRecursive[E cmp.Ordered](node *Node[E], value E) bool {
-	if node == nil {
-		return false
-	}
-	if value < node.data {
-		return existsRecursive(node.left, value)
-	} else if value > node.data {
-		return existsRecursive(node.right, value)
-	}
-	return true
+	// hint: use recursive helper function:
+	//       1) if node == nil, return false
+	//       2) if value < node.data, search left
+	//       3) if value > node.data, search right
+	//       4) if equal, return true
+	panic("todo: please implement me!")
 }
 
 // Del removes a value from the BST, maintaining the ordering property.
@@ -262,40 +248,20 @@ func existsRecursive[E cmp.Ordered](node *Node[E], value E) bool {
 // complexity:
 //   - time : O(h) where h is the height of the tree
 //   - space: O(h) for the recursive call stack
+//
+// SCORE: 20
 func (t *BinarySearchTree[E]) Del(value E) {
-	var deleted bool
-	t.root, deleted = delRecursive(t.root, value)
-	if deleted {
-		t.size--
-	}
-}
-
-func delRecursive[E cmp.Ordered](node *Node[E], value E) (*Node[E], bool) {
-	if node == nil {
-		return nil, false
-	}
-	var deleted bool
-	switch {
-	case value < node.data:
-		node.left, deleted = delRecursive(node.left, value)
-		return node, deleted
-	case value > node.data:
-		node.right, deleted = delRecursive(node.right, value)
-		return node, deleted
-	default:
-		// node.data == value
-		if node.left == nil {
-			return node.right, true
-		}
-		if node.right == nil {
-			return node.left, true
-		}
-		// Two children
-		successor := minChild(node.right)
-		node.data = successor.data
-		node.right, _ = delRecursive(node.right, successor.data)
-		return node, true
-	}
+	// hint: use recursive helper function:
+	//       1) if node == nil, return (nil, false)
+	//       2) if value < node.data, recurse left
+	//       3) if value > node.data, recurse right
+	//       4) if equal: 3 cases
+	//          - no left child: return right child
+	//          - no right child: return left child
+	//          - both children: find min in right subtree (successor),
+	//            copy value, delete successor from right subtree
+	//       5) decrement size if deleted
+	panic("todo: please implement me!")
 }
 
 // Min returns the smallest value in the tree.
@@ -313,19 +279,13 @@ func delRecursive[E cmp.Ordered](node *Node[E], value E) (*Node[E], bool) {
 // complexity:
 //   - time : O(h) where h is the height of the tree
 //   - space: O(1)
+//
+// SCORE: 10
 func (t *BinarySearchTree[E]) Min() (E, bool) {
-	if t.root == nil {
-		var zero E
-		return zero, false
-	}
-	return minChild(t.root).data, true
-}
-
-func minChild[E cmp.Ordered](node *Node[E]) *Node[E] {
-	for node.left != nil {
-		node = node.left
-	}
-	return node
+	// hint: 1) if root == nil, return (zero, false)
+	//       2) traverse left until node.left == nil
+	//       3) return (node.data, true)
+	panic("todo: please implement me!")
 }
 
 // Max returns the largest value in the tree.
@@ -343,19 +303,13 @@ func minChild[E cmp.Ordered](node *Node[E]) *Node[E] {
 // complexity:
 //   - time : O(h) where h is the height of the tree
 //   - space: O(1)
+//
+// SCORE: 10
 func (t *BinarySearchTree[E]) Max() (E, bool) {
-	if t.root == nil {
-		var zero E
-		return zero, false
-	}
-	return maxChild(t.root).data, true
-}
-
-func maxChild[E cmp.Ordered](node *Node[E]) *Node[E] {
-	for node.right != nil {
-		node = node.right
-	}
-	return node
+	// hint: 1) if root == nil, return (zero, false)
+	//       2) traverse right until node.right == nil
+	//       3) return (node.data, true)
+	panic("todo: please implement me!")
 }
 
 // InOrder traverses the tree in sorted order (left → root → right).
@@ -382,8 +336,15 @@ func maxChild[E cmp.Ordered](node *Node[E]) *Node[E] {
 // complexity:
 //   - time : O(n) visits every node exactly once
 //   - space: O(h) for the recursive call stack
+//
+// SCORE: 10
 func (t *BinarySearchTree[E]) InOrder(visit func(E) bool) {
-	_ = inOrder(t.root, visit)
+	// hint: use recursive helper: inOrder(node, visit)
+	//       1) if node == nil, return true
+	//       2) if !inOrder(node.left, visit), return false
+	//       3) if !visit(node.data), return false
+	//       4) return inOrder(node.right, visit)
+	panic("todo: please implement me!")
 }
 
 // Iter is an alias for InOrder, satisfying adt.Iterator.
@@ -409,19 +370,6 @@ func (t *BinarySearchTree[E]) String() string {
 	return sequence.String(t.Iter)
 }
 
-func inOrder[E cmp.Ordered](node *Node[E], visit func(E) bool) bool {
-	if node == nil {
-		return true
-	}
-	if !inOrder(node.left, visit) {
-		return false
-	}
-	if !visit(node.data) {
-		return false
-	}
-	return inOrder(node.right, visit)
-}
-
 // IterBackward traverses the tree in reverse in-order (right → root → left).
 // This visits elements in descending order.
 //
@@ -436,21 +384,14 @@ func inOrder[E cmp.Ordered](node *Node[E], visit func(E) bool) bool {
 // complexity:
 //   - time : O(n)
 //   - space: O(h)
+//
+// SCORE: 5
 func (t *BinarySearchTree[E]) IterBackward(visit func(E) bool) {
-	_ = reverseInOrder(t.root, visit)
-}
-
-func reverseInOrder[E cmp.Ordered](node *Node[E], visit func(E) bool) bool {
-	if node == nil {
-		return true
-	}
-	if !reverseInOrder(node.right, visit) {
-		return false
-	}
-	if !visit(node.data) {
-		return false
-	}
-	return reverseInOrder(node.left, visit)
+	// hint: reverse of InOrder: right → root → left
+	//       1) recurse right first
+	//       2) visit node
+	//       3) recurse left
+	panic("todo: please implement me!")
 }
 
 // PreOrder traverses the tree in pre-order (root → left → right).
@@ -476,21 +417,14 @@ func reverseInOrder[E cmp.Ordered](node *Node[E], visit func(E) bool) bool {
 // complexity:
 //   - time : O(n)
 //   - space: O(h)
+//
+// SCORE: 5
 func (t *BinarySearchTree[E]) PreOrder(visit func(E) bool) {
-	_ = preOrder(t.root, visit)
-}
-
-func preOrder[E cmp.Ordered](node *Node[E], visit func(E) bool) bool {
-	if node == nil {
-		return true
-	}
-	if !visit(node.data) {
-		return false
-	}
-	if !preOrder(node.left, visit) {
-		return false
-	}
-	return preOrder(node.right, visit)
+	// hint: root → left → right
+	//       1) visit node first
+	//       2) recurse left
+	//       3) recurse right
+	panic("todo: please implement me!")
 }
 
 // PostOrder traverses the tree in post-order (left → right → root).
@@ -516,19 +450,12 @@ func preOrder[E cmp.Ordered](node *Node[E], visit func(E) bool) bool {
 // complexity:
 //   - time : O(n)
 //   - space: O(h)
+//
+// SCORE: 5
 func (t *BinarySearchTree[E]) PostOrder(visit func(E) bool) {
-	_ = postOrder(t.root, visit)
-}
-
-func postOrder[E cmp.Ordered](node *Node[E], visit func(E) bool) bool {
-	if node == nil {
-		return true
-	}
-	if !postOrder(node.left, visit) {
-		return false
-	}
-	if !postOrder(node.right, visit) {
-		return false
-	}
-	return visit(node.data)
+	// hint: left → right → root
+	//       1) recurse left
+	//       2) recurse right
+	//       3) visit node last
+	panic("todo: please implement me!")
 }

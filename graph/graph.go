@@ -52,12 +52,10 @@
 package graph
 
 import (
-	"fmt"
 	"iter"
 
 	"github.com/josestg/dsa/hashmap"
 	"github.com/josestg/dsa/linkedlist"
-	"github.com/josestg/dsa/sequence"
 )
 
 // Graph represents a graph using an adjacency list.
@@ -111,13 +109,12 @@ func New[V comparable](directed bool) *Graph[V] {
 	}
 }
 
+// SCORE: 10
 func (g *Graph[V]) ensureNode(v V) *linkedlist.SinglyLinkedList[V] {
-	neighbors, ok := g.adjacency.Get(v)
-	if !ok {
-		neighbors = linkedlist.NewSinglyLinkedList[V]()
-		g.adjacency.Put(v, neighbors)
-	}
-	return neighbors
+	// hint: 1) get neighbors list from g.adjacency.Get(v)
+	//       2) if not found, create new list and g.adjacency.Put(v, list)
+	//       3) return the neighbors list
+	panic("todo: please implement me!")
 }
 
 // Size returns the number of vertices.
@@ -172,23 +169,14 @@ func (g *Graph[V]) Directed() bool {
 // complexity:
 //   - time : O(degree) to check for duplicates
 //   - space: O(1)
+//
+// SCORE: 20
 func (g *Graph[V]) AddEdge(from, to V) {
-	list := g.ensureNode(from)
-	for v := range list.Iter {
-		if v == to {
-			return
-		}
-	}
-	list.Append(to)
-	if !g.directed {
-		rev := g.ensureNode(to)
-		for v := range rev.Iter {
-			if v == from {
-				return
-			}
-		}
-		rev.Append(from)
-	}
+	// hint: 1) list := ensureNode(from)
+	//       2) check if edge exists (iterate list, if v == to, return)
+	//       3) list.Append(to)
+	//       4) if undirected (!g.directed), also add reverse edge
+	panic("todo: please implement me!")
 }
 
 // DelEdge removes an edge between two vertices.
@@ -209,25 +197,13 @@ func (g *Graph[V]) AddEdge(from, to V) {
 // complexity:
 //   - time : O(degree)
 //   - space: O(1)
+//
+// SCORE: 15
 func (g *Graph[V]) DelEdge(from, to V) {
-	if list, ok := g.adjacency.Get(from); ok {
-		for i, v := range sequence.Enum(list.Iter) {
-			if v == to {
-				_ = list.Remove(i)
-				break
-			}
-		}
-	}
-	if !g.directed {
-		if list, ok := g.adjacency.Get(to); ok {
-			for i, v := range sequence.Enum(list.Iter) {
-				if v == from {
-					_ = list.Remove(i)
-					break
-				}
-			}
-		}
-	}
+	// hint: 1) get list from g.adjacency.Get(from)
+	//       2) iterate with sequence.Enum, find 'to', call list.Remove(i)
+	//       3) if undirected, repeat for reverse direction
+	panic("todo: please implement me!")
 }
 
 // HasEdge checks if an edge exists from one vertex to another.
@@ -241,15 +217,13 @@ func (g *Graph[V]) DelEdge(from, to V) {
 // complexity:
 //   - time : O(degree)
 //   - space: O(1)
+//
+// SCORE: 15
 func (g *Graph[V]) HasEdge(from, to V) bool {
-	if list, ok := g.adjacency.Get(from); ok {
-		for v := range list.Iter {
-			if v == to {
-				return true
-			}
-		}
-	}
-	return false
+	// hint: 1) get list from g.adjacency.Get(from)
+	//       2) iterate list, if v == to, return true
+	//       3) return false
+	panic("todo: please implement me!")
 }
 
 // HasVertex checks if a vertex exists in the graph.
@@ -262,8 +236,11 @@ func (g *Graph[V]) HasEdge(from, to V) bool {
 // complexity:
 //   - time : O(1) average
 //   - space: O(1)
+//
+// SCORE: 5
 func (g *Graph[V]) HasVertex(v V) bool {
-	return g.adjacency.Exists(v)
+	// hint: return g.adjacency.Exists(v)
+	panic("todo: please implement me!")
 }
 
 // Vertex iterates over all vertices in the graph.
@@ -280,12 +257,11 @@ func (g *Graph[V]) HasVertex(v V) bool {
 // complexity:
 //   - time : O(V)
 //   - space: O(1)
+//
+// SCORE: 10
 func (g *Graph[V]) Vertex(yield func(V) bool) {
-	for v := range g.adjacency.Iter {
-		if !yield(v.Key()) {
-			break
-		}
-	}
+	// hint: iterate g.adjacency.Iter, yield entry.Key()
+	panic("todo: please implement me!")
 }
 
 // Neighbors returns an iterator over a vertex's neighbors.
@@ -304,16 +280,12 @@ func (g *Graph[V]) Vertex(yield func(V) bool) {
 // complexity:
 //   - time : O(degree)
 //   - space: O(1)
+//
+// SCORE: 15
 func (g *Graph[V]) Neighbors(v V) iter.Seq[V] {
-	return func(yield func(V) bool) {
-		if list, ok := g.adjacency.Get(v); ok {
-			for val := range list.Iter {
-				if !yield(val) {
-					break
-				}
-			}
-		}
-	}
+	// hint: return a function that gets list from adjacency
+	//       and iterates list.Iter, yielding each neighbor
+	panic("todo: please implement me!")
 }
 
 // String returns a string representation of the graph.
@@ -328,16 +300,10 @@ func (g *Graph[V]) Neighbors(v V) iter.Seq[V] {
 // complexity:
 //   - time : O(V + E)
 //   - space: O(V + E)
+//
+// SCORE: 10
 func (g *Graph[V]) String() string {
-	result := "Graph{"
-	first := true
-	for entry := range g.adjacency.Iter {
-		if !first {
-			result += ", "
-		}
-		first = false
-		result += fmt.Sprintf("%v: %s", entry.Key(), sequence.String(entry.Value().Iter))
-	}
-	result += "}"
-	return result
+	// hint: iterate g.adjacency.Iter, format as "Graph{V: [neighbors], ...}"
+	//       use sequence.String(entry.Value().Iter) for neighbors
+	panic("todo: please implement me!")
 }

@@ -90,40 +90,30 @@ func (l *CircularDoublyLinkedList[T]) TryTail() (T, bool) {
 // Append adds an element to the back of the list.
 //
 // complexity: O(1)
+//
+// SCORE: 15
 func (l *CircularDoublyLinkedList[T]) Append(data T) {
-	n := NewBinaryNode(data, nil, nil)
-	if l.Empty() {
-		n.next = n
-		n.prev = n
-		l.head = n
-	} else {
-		tail := l.head.prev
-		n.next = l.head
-		n.prev = tail
-		tail.next = n
-		l.head.prev = n
-	}
-	l.size++
+	// hint: 1) create new node with next=nil, prev=nil
+	//       2) if empty: set node.next = node, node.prev = node, head = node
+	//       3) else: tail = head.prev; node.next = head; node.prev = tail
+	//                tail.next = node; head.prev = node
+	//       4) increment size
+	panic("todo: please implement me!")
 }
 
 // Prepend adds an element to the front of the list.
 //
 // complexity: O(1)
+//
+// SCORE: 10
 func (l *CircularDoublyLinkedList[T]) Prepend(data T) {
-	n := NewBinaryNode(data, nil, nil)
-	if l.Empty() {
-		n.next = n
-		n.prev = n
-		l.head = n
-	} else {
-		tail := l.head.prev
-		n.next = l.head
-		n.prev = tail
-		l.head.prev = n
-		tail.next = n
-		l.head = n
-	}
-	l.size++
+	// hint: 1) create new node
+	//       2) if empty: set node.next = node, node.prev = node
+	//       3) else: tail = head.prev; node.next = head; node.prev = tail
+	//                head.prev = node; tail.next = node
+	//       4) set head = node
+	//       5) increment size
+	panic("todo: please implement me!")
 }
 
 // Pop removes and returns the last element.
@@ -145,23 +135,15 @@ func (l *CircularDoublyLinkedList[T]) Pop() T {
 // This is a non-panicking version of Pop.
 //
 // complexity: O(1)
+//
+// SCORE: 15
 func (l *CircularDoublyLinkedList[T]) TryPop() (T, bool) {
-	if l.Empty() {
-		return generics.ZeroValue[T](), false
-	}
-	tail := l.head.prev
-	data := tail.data
-	if l.size == 1 {
-		l.reset()
-		return data, true
-	}
-	newTail := tail.prev
-	newTail.next = l.head
-	l.head.prev = newTail
-	tail.next = nil
-	tail.prev = nil
-	l.size--
-	return data, true
+	// hint: 1) if empty, return (zero, false)
+	//       2) tail = head.prev; save tail.data
+	//       3) if size == 1: call reset()
+	//       4) else: newTail = tail.prev; newTail.next = head; head.prev = newTail
+	//       5) decrement size, return (saved, true)
+	panic("todo: please implement me!")
 }
 
 // Shift removes and returns the first element.
@@ -183,24 +165,16 @@ func (l *CircularDoublyLinkedList[T]) Shift() T {
 // This is a non-panicking version of Shift.
 //
 // complexity: O(1)
+//
+// SCORE: 10
 func (l *CircularDoublyLinkedList[T]) TryShift() (T, bool) {
-	if l.Empty() {
-		return generics.ZeroValue[T](), false
-	}
-	data := l.head.data
-	if l.size == 1 {
-		l.reset()
-		return data, true
-	}
-	tail := l.head.prev
-	newHead := l.head.next
-	tail.next = newHead
-	newHead.prev = tail
-	l.head.next = nil
-	l.head.prev = nil
-	l.head = newHead
-	l.size--
-	return data, true
+	// hint: 1) if empty, return (zero, false)
+	//       2) save head.data
+	//       3) if size == 1: call reset()
+	//       4) else: tail = head.prev; newHead = head.next
+	//                tail.next = newHead; newHead.prev = tail; head = newHead
+	//       5) decrement size, return (saved, true)
+	panic("todo: please implement me!")
 }
 
 // Rotate moves the head pointer n positions.
@@ -243,11 +217,13 @@ func (l *CircularDoublyLinkedList[T]) Get(index int) T {
 
 // TryGet attempts to retrieve the element at the given index.
 // Returns (value, true) on success, or (zero, false) if index is out of bounds.
+//
+// SCORE: 10
 func (l *CircularDoublyLinkedList[T]) TryGet(index int) (T, bool) {
-	if l.Empty() || index < 0 || index >= l.Size() {
-		return generics.ZeroValue[T](), false
-	}
-	return l.nodeAt(index).data, true
+	// hint: 1) check bounds (empty || index < 0 || index >= size)
+	//       2) use nodeAt(index) helper to find the node
+	//       3) return (node.data, true)
+	panic("todo: please implement me!")
 }
 
 // Set updates the element at the given index.
@@ -264,32 +240,30 @@ func (l *CircularDoublyLinkedList[T]) Set(index int, data T) {
 
 // TrySet attempts to update the element at the given index.
 // Returns true on success, false if index is out of bounds.
+//
+// SCORE: 5
 func (l *CircularDoublyLinkedList[T]) TrySet(index int, data T) bool {
-	if l.Empty() || index < 0 || index >= l.Size() {
-		return false
-	}
-	l.nodeAt(index).data = data
-	return true
+	// hint: 1) check bounds, return false if invalid
+	//       2) use nodeAt(index) to find node
+	//       3) node.data = data
+	//       4) return true
+	panic("todo: please implement me!")
 }
 
 // Insert adds an element at the given index.
 //
 // complexity: O(min(k, size-k))
+//
+// SCORE: 5
 func (l *CircularDoublyLinkedList[T]) Insert(index int, data T) {
-	if index == 0 {
-		l.Prepend(data)
-		return
-	}
-	if index == l.size {
-		l.Append(data)
-		return
-	}
-	l.checkBounds(index)
-	curr := l.nodeAt(index)
-	n := NewBinaryNode(data, curr, curr.prev)
-	curr.prev.next = n
-	curr.prev = n
-	l.size++
+	// hint: 1) if index == 0: Prepend(data); return
+	//       2) if index == size: Append(data); return
+	//       3) checkBounds(index)
+	//       4) curr = nodeAt(index)
+	//       5) create new node with next=curr, prev=curr.prev
+	//       6) curr.prev.next = node; curr.prev = node
+	//       7) increment size
+	panic("todo: please implement me!")
 }
 
 // Remove deletes and returns the element at the given index.
@@ -305,52 +279,37 @@ func (l *CircularDoublyLinkedList[T]) Remove(index int) T {
 
 // TryRemove attempts to remove the element at the given index.
 // Returns (value, true) on success, or (zero, false) if index is out of bounds.
+//
+// SCORE: 10
 func (l *CircularDoublyLinkedList[T]) TryRemove(index int) (T, bool) {
-	if index < 0 || index >= l.Size() {
-		return generics.ZeroValue[T](), false
-	}
-	if index == 0 {
-		return l.TryShift()
-	}
-	if index == l.size-1 {
-		return l.TryPop()
-	}
-	curr := l.nodeAt(index)
-	curr.prev.next = curr.next
-	curr.next.prev = curr.prev
-	data := curr.data
-	curr.next = nil
-	curr.prev = nil
-	l.size--
-	return data, true
+	// hint: 1) check bounds, return (zero, false) if invalid
+	//       2) if index == 0: return TryShift()
+	//       3) if index == size-1: return TryPop()
+	//       4) curr = nodeAt(index)
+	//       5) rewire: curr.prev.next = curr.next; curr.next.prev = curr.prev
+	//       6) save curr.data, clear pointers, decrement size
+	//       7) return (saved, true)
+	panic("todo: please implement me!")
 }
 
 // Iter iterates over all elements starting from head.
+//
+// SCORE: 10
 func (l *CircularDoublyLinkedList[T]) Iter(yield func(T) bool) {
-	if l.Empty() {
-		return
-	}
-	p := l.head
-	for range l.size {
-		if !yield(p.data) {
-			break
-		}
-		p = p.next
-	}
+	// hint: 1) if empty, return
+	//       2) p := head; loop exactly 'size' times
+	//       3) yield(p.data); p = p.next
+	panic("todo: please implement me!")
 }
 
 // IterBackward iterates over all elements from tail to head.
+//
+// SCORE: 10
 func (l *CircularDoublyLinkedList[T]) IterBackward(yield func(T) bool) {
-	if l.Empty() {
-		return
-	}
-	p := l.head.prev
-	for range l.size {
-		if !yield(p.data) {
-			break
-		}
-		p = p.prev
-	}
+	// hint: 1) if empty, return
+	//       2) p := head.prev (tail); loop exactly 'size' times
+	//       3) yield(p.data); p = p.prev
+	panic("todo: please implement me!")
 }
 
 // Enum iterates over all elements with their indices from front to back.

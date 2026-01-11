@@ -51,12 +51,8 @@ package hashmap
 
 import (
 	"cmp"
-	"fmt"
-	"strings"
 
-	"github.com/josestg/dsa/internal/generics"
 	"github.com/josestg/dsa/linkedlist"
-	"github.com/josestg/dsa/sequence"
 )
 
 // HashMap is a hash table using separate chaining for collision resolution.
@@ -156,11 +152,12 @@ func NewWith[K comparable, V any](opts Options[K]) *HashMap[K, V] {
 // complexity:
 //   - time : O(1) average, O(n) worst case
 //   - space: O(1)
+//
+// SCORE: 15
 func (h *HashMap[K, V]) Put(key K, value V) {
-	if h.LoadFactor() >= h.loadThreshold {
-		h.growAndRehash()
-	}
-	h.put(key, value)
+	// hint: 1) if LoadFactor() >= threshold, call growAndRehash()
+	//       2) call h.put(key, value)
+	panic("todo: please implement me!")
 }
 
 // Del removes a key-value pair from the map.
@@ -184,31 +181,21 @@ func (h *HashMap[K, V]) Put(key K, value V) {
 // complexity:
 //   - time : O(1) average, O(n) worst case
 //   - space: O(1)
+//
+// SCORE: 15
 func (h *HashMap[K, V]) Del(key K) {
-	index := h.bucketIndex(key)
-	entries := h.buckets[index]
-	for i, v := range sequence.Enum(entries.Iter) {
-		if v.key == key {
-			_ = entries.Remove(i)
-			h.size--
-			break
-		}
-	}
+	// hint: 1) get bucket index using bucketIndex(key)
+	//       2) iterate bucket (entries) with sequence.Enum to track index
+	//       3) if entry.key == key: entries.Remove(i), decrement size, break
+	panic("todo: please implement me!")
 }
 
+// SCORE: 10
 func (h *HashMap[K, V]) put(key K, value V) {
-	index := h.bucketIndex(key)
-	entries := h.buckets[index]
-
-	for v := range entries.Iter {
-		if v.key == key {
-			v.val = value
-			return
-		}
-	}
-
-	entries.Append(NewEntry(key, value))
-	h.size++
+	// hint: 1) get bucket index using bucketIndex(key)
+	//       2) iterate bucket to check if key exists, update value if found
+	//       3) if not found: entries.Append(NewEntry(key, value)), increment size
+	panic("todo: please implement me!")
 }
 
 // Iter iterates over all entries in the map.
@@ -226,14 +213,11 @@ func (h *HashMap[K, V]) put(key K, value V) {
 // complexity:
 //   - time : O(n + capacity)
 //   - space: O(1)
+//
+// SCORE: 10
 func (h *HashMap[K, V]) Iter(yield func(*Entry[K, V]) bool) {
-	for _, entries := range h.buckets {
-		for v := range entries.Iter {
-			if !yield(v) {
-				return
-			}
-		}
-	}
+	// hint: for each bucket in h.buckets, iterate entries and yield each
+	panic("todo: please implement me!")
 }
 
 // Keys iterates over all keys in the map.
@@ -245,12 +229,11 @@ func (h *HashMap[K, V]) Iter(yield func(*Entry[K, V]) bool) {
 // complexity:
 //   - time : O(n + capacity)
 //   - space: O(1)
+//
+// SCORE: 5
 func (h *HashMap[K, V]) Keys(yield func(K) bool) {
-	for e := range h.Iter {
-		if !yield(e.Key()) {
-			break
-		}
-	}
+	// hint: use h.Iter and yield e.Key() for each entry
+	panic("todo: please implement me!")
 }
 
 // Get retrieves the value for a key.
@@ -270,17 +253,14 @@ func (h *HashMap[K, V]) Keys(yield func(K) bool) {
 // complexity:
 //   - time : O(1) average, O(n) worst case
 //   - space: O(1)
+//
+// SCORE: 15
 func (h *HashMap[K, V]) Get(key K) (V, bool) {
-	if !h.Empty() {
-		index := h.bucketIndex(key)
-		entries := h.buckets[index]
-		for v := range entries.Iter {
-			if v.key == key {
-				return v.val, true
-			}
-		}
-	}
-	return generics.ZeroValue[V](), false
+	// hint: 1) if Empty(), return (zero, false)
+	//       2) get bucket index, iterate bucket entries
+	//       3) if entry.key == key, return (entry.val, true)
+	//       4) return (zero, false)
+	panic("todo: please implement me!")
 }
 
 // Exists checks if a key is present in the map.
@@ -305,25 +285,20 @@ func (h *HashMap[K, V]) Exists(key K) bool {
 // complexity:
 //   - time : O(n)
 //   - space: O(n)
+//
+// SCORE: 5
 func (h *HashMap[K, V]) String() string {
-	var buf strings.Builder
-	buf.WriteRune('[')
-	for i, e := range sequence.Enum(h.Iter) {
-		if i > 0 {
-			buf.WriteRune(' ')
-		}
-		_, _ = fmt.Fprintf(&buf, "%v:%v", e.Key(), e.Value())
-	}
-	buf.WriteRune(']')
-	return buf.String()
+	// hint: use strings.Builder, iterate with sequence.Enum(h.Iter)
+	//       format each entry as "key:value"
+	panic("todo: please implement me!")
 }
 
+// SCORE: 10
 func (h *HashMap[K, V]) bucketIndex(key K) int {
-	hash := h.hashFunction(key)
-	if hash < 0 {
-		hash = -hash
-	}
-	return hash % len(h.buckets)
+	// hint: 1) hash := h.hashFunction(key)
+	//       2) if hash < 0, hash = -hash (make positive)
+	//       3) return hash % len(h.buckets)
+	panic("todo: please implement me!")
 }
 
 // growAndRehash doubles the capacity and redistributes all entries.
@@ -352,20 +327,13 @@ func (h *HashMap[K, V]) bucketIndex(key K) int {
 // complexity:
 //   - time : O(n)
 //   - space: O(n)
+//
+// SCORE: 15
 func (h *HashMap[K, V]) growAndRehash() {
-	h2 := NewWith[K, V](Options[K]{
-		Capacity:      2 * len(h.buckets),
-		LoadThreshold: h.loadThreshold,
-		HashFunction:  h.hashFunction,
-	})
-
-	for e := range h.Iter {
-		h2.put(e.Key(), e.Value())
-	}
-
-	h.size = h2.size
-	h.buckets = h2.buckets
-	h2 = nil
+	// hint: 1) create new HashMap with 2x capacity using NewWith
+	//       2) iterate all entries with h.Iter, call h2.put(key, val)
+	//       3) replace h.size and h.buckets with h2's values
+	panic("todo: please implement me!")
 }
 
 // Size returns the number of key-value pairs.

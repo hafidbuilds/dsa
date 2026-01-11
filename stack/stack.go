@@ -116,9 +116,12 @@ func NewWith[E any](b Backend[E]) *Stack[E] {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 5
 func (s *Stack[E]) Empty() bool {
-	s.ensureBackend()
-	return s.b.Empty()
+	// hint: 1) call ensureBackend()
+	//       2) return s.b.Empty()
+	panic("todo: please implement me!")
 }
 
 // Size returns the number of elements in the stack.
@@ -136,9 +139,12 @@ func (s *Stack[E]) Empty() bool {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 5
 func (s *Stack[E]) Size() int {
-	s.ensureBackend()
-	return s.b.Size()
+	// hint: 1) call ensureBackend()
+	//       2) return s.b.Size()
+	panic("todo: please implement me!")
 }
 
 // Peek returns the top element without removing it.
@@ -173,13 +179,13 @@ func (s *Stack[E]) Peek() E {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 15
 func (s *Stack[E]) TryPeek() (E, bool) {
-	s.ensureBackend()
-	if s.Empty() {
-		var zero E
-		return zero, false
-	}
-	return s.b.Tail(), true
+	// hint: 1) call ensureBackend()
+	//       2) if Empty(), return (zero, false)
+	//       3) return (s.b.Tail(), true) - top of stack is the tail
+	panic("todo: please implement me!")
 }
 
 // Push adds an element to the top of the stack.
@@ -199,9 +205,12 @@ func (s *Stack[E]) TryPeek() (E, bool) {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 15
 func (s *Stack[E]) Push(data E) {
-	s.ensureBackend()
-	s.b.Append(data)
+	// hint: 1) call ensureBackend()
+	//       2) call s.b.Append(data) - push to top = append to tail
+	panic("todo: please implement me!")
 }
 
 // Pop removes and returns the top element.
@@ -237,13 +246,13 @@ func (s *Stack[E]) Pop() E {
 // complexity:
 //   - time : O(1)
 //   - space: O(1)
+//
+// SCORE: 20
 func (s *Stack[E]) TryPop() (E, bool) {
-	s.ensureBackend()
-	if s.Empty() {
-		var zero E
-		return zero, false
-	}
-	return s.b.Pop(), true
+	// hint: 1) call ensureBackend()
+	//       2) if Empty(), return (zero, false)
+	//       3) return (s.b.Pop(), true) - pop from top = pop from tail
+	panic("todo: please implement me!")
 }
 
 // String returns the string representation of the stack.
@@ -263,9 +272,12 @@ func (s *Stack[E]) TryPop() (E, bool) {
 // complexity:
 //   - time : O(n)
 //   - space: O(n)
+//
+// SCORE: 10
 func (s *Stack[E]) String() string {
-	s.ensureBackend()
-	return s.b.String()
+	// hint: 1) call ensureBackend()
+	//       2) return s.b.String()
+	panic("todo: please implement me!")
 }
 
 // Iter iterates over all elements from bottom to top.
@@ -285,13 +297,16 @@ func (s *Stack[E]) String() string {
 // complexity:
 //   - time : O(n)
 //   - space: O(1)
+//
+// SCORE: 10
 func (s *Stack[E]) Iter(yield func(E) bool) {
-	s.ensureBackend()
-	s.b.Iter(yield)
+	// hint: 1) call ensureBackend()
+	//       2) call s.b.Iter(yield)
+	panic("todo: please implement me!")
 }
 
+// SCORE: 20
 func (s *Stack[E]) ensureBackend() {
-	if s.b == nil {
-		s.b = linkedlist.NewDoublyLinkedList[E]()
-	}
+	// hint: if s.b == nil, initialize it with linkedlist.NewDoublyLinkedList[E]()
+	panic("todo: please implement me!")
 }
