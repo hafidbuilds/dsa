@@ -60,7 +60,7 @@ jobs:
         run: scripts/update-readme-status.sh
 
       - name: Commit README status
-        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: always() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/playground')
         run: |
           if git diff --quiet README.md; then
             echo "No README changes to commit."
