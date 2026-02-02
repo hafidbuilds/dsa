@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -51,3 +54,20 @@ jobs:
 
       - name: Unittest
         run: go test -race -v ./...
+
+      - name: Update README status
+        if: always()
+        run: scripts/update-readme-status.sh
+
+      - name: Commit README status
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          if git diff --quiet README.md; then
+            echo "No README changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "chore: update README test status [skip ci]"
+          git push
