@@ -18,9 +18,9 @@ run_test() {
   shift 3
   "$@"
   local status="$?"
-  local result="FAIL"
+  local result="❌"
   if [ "$status" -eq 0 ]; then
-    result="PASS"
+    result="✅"
   fi
   rows+=("| ${index} | \`${pkg}\` | \`${structure}\` | ${result} |")
   return 0
