@@ -17,7 +17,7 @@ A Go library for learning data structures through implementation.
 | 7 | `hashmap` | `HashMap[K,V]` | ✅ |
 | 8 | `sets` | `HashSet[T]` | ✅ |
 | 9 | `graph` | `Graph[V]` | ❌ |
-| 10 | `tree` | `BinarySearchTree[T]` | ❌ |
+| 10 | `tree` | `BinarySearchTree[T]` | ✅ |
 | 11 | `bitsets` | `BitSet` | ❌ |
 <!-- STATUS:END -->
 
