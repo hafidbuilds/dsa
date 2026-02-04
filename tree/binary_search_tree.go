@@ -170,7 +170,29 @@ func (t *BinarySearchTree[E]) Add(value E) {
 	//       3) if value > node.data, recurse right
 	//       4) if equal, do nothing (duplicate)
 	//       5) increment size if inserted
-	panic("todo: please implement me!")
+	var add func(*Node[E], E) (*Node[E], bool)
+	add = func(node *Node[E], value E) (*Node[E], bool) {
+		if node == nil {
+			return &Node[E]{data: value}, true
+		}
+		if value < node.data {
+			var inserted bool
+			node.left, inserted = add(node.left, value)
+			return node, inserted
+		}
+		if value > node.data {
+			var inserted bool
+			node.right, inserted = add(node.right, value)
+			return node, inserted
+		}
+		return node, false
+	}
+
+	var inserted bool
+	t.root, inserted = add(t.root, value)
+	if inserted {
+		t.size++
+	}
 }
 
 // Exists checks if a value exists in the BST.
@@ -203,7 +225,21 @@ func (t *BinarySearchTree[E]) Exists(value E) bool {
 	//       2) if value < node.data, search left
 	//       3) if value > node.data, search right
 	//       4) if equal, return true
-	panic("todo: please implement me!")
+	var exists func(*Node[E], E) bool
+	exists = func(node *Node[E], value E) bool {
+		if node == nil {
+			return false
+		}
+		if value < node.data {
+			return exists(node.left, value)
+		}
+		if value > node.data {
+			return exists(node.right, value)
+		}
+		return true
+	}
+
+	return exists(t.root, value)
 }
 
 // Del removes a value from the BST, maintaining the ordering property.
@@ -261,7 +297,45 @@ func (t *BinarySearchTree[E]) Del(value E) {
 	//          - both children: find min in right subtree (successor),
 	//            copy value, delete successor from right subtree
 	//       5) decrement size if deleted
-	panic("todo: please implement me!")
+	var del func(*Node[E], E) (*Node[E], bool)
+	del = func(node *Node[E], value E) (*Node[E], bool) {
+		if node == nil {
+			return nil, false
+		}
+		if value < node.data {
+			var deleted bool
+			node.left, deleted = del(node.left, value)
+			return node, deleted
+		}
+		if value > node.data {
+			var deleted bool
+			node.right, deleted = del(node.right, value)
+			return node, deleted
+		}
+
+		// node to delete found
+		if node.left == nil {
+			return node.right, true
+		}
+		if node.right == nil {
+			return node.left, true
+		}
+
+		// both children: replace with in-order successor
+		successor := node.right
+		for successor.left != nil {
+			successor = successor.left
+		}
+		node.data = successor.data
+		node.right, _ = del(node.right, successor.data)
+		return node, true
+	}
+
+	var deleted bool
+	t.root, deleted = del(t.root, value)
+	if deleted {
+		t.size--
+	}
 }
 
 // Min returns the smallest value in the tree.
@@ -285,7 +359,15 @@ func (t *BinarySearchTree[E]) Min() (E, bool) {
 	// hint: 1) if root == nil, return (zero, false)
 	//       2) traverse left until node.left == nil
 	//       3) return (node.data, true)
-	panic("todo: please implement me!")
+	var zero E
+	if t.root == nil {
+		return zero, false
+	}
+	node := t.root
+	for node.left != nil {
+		node = node.left
+	}
+	return node.data, true
 }
 
 // Max returns the largest value in the tree.
@@ -309,7 +391,15 @@ func (t *BinarySearchTree[E]) Max() (E, bool) {
 	// hint: 1) if root == nil, return (zero, false)
 	//       2) traverse right until node.right == nil
 	//       3) return (node.data, true)
-	panic("todo: please implement me!")
+	var zero E
+	if t.root == nil {
+		return zero, false
+	}
+	node := t.root
+	for node.right != nil {
+		node = node.right
+	}
+	return node.data, true
 }
 
 // InOrder traverses the tree in sorted order (left → root → right).
@@ -344,7 +434,21 @@ func (t *BinarySearchTree[E]) InOrder(visit func(E) bool) {
 	//       2) if !inOrder(node.left, visit), return false
 	//       3) if !visit(node.data), return false
 	//       4) return inOrder(node.right, visit)
-	panic("todo: please implement me!")
+	var inOrder func(*Node[E]) bool
+	inOrder = func(node *Node[E]) bool {
+		if node == nil {
+			return true
+		}
+		if !inOrder(node.left) {
+			return false
+		}
+		if !visit(node.data) {
+			return false
+		}
+		return inOrder(node.right)
+	}
+
+	inOrder(t.root)
 }
 
 // Iter is an alias for InOrder, satisfying adt.Iterator.
@@ -391,7 +495,21 @@ func (t *BinarySearchTree[E]) IterBackward(visit func(E) bool) {
 	//       1) recurse right first
 	//       2) visit node
 	//       3) recurse left
-	panic("todo: please implement me!")
+	var reverseInOrder func(*Node[E]) bool
+	reverseInOrder = func(node *Node[E]) bool {
+		if node == nil {
+			return true
+		}
+		if !reverseInOrder(node.right) {
+			return false
+		}
+		if !visit(node.data) {
+			return false
+		}
+		return reverseInOrder(node.left)
+	}
+
+	reverseInOrder(t.root)
 }
 
 // PreOrder traverses the tree in pre-order (root → left → right).
@@ -424,7 +542,21 @@ func (t *BinarySearchTree[E]) PreOrder(visit func(E) bool) {
 	//       1) visit node first
 	//       2) recurse left
 	//       3) recurse right
-	panic("todo: please implement me!")
+	var preOrder func(*Node[E]) bool
+	preOrder = func(node *Node[E]) bool {
+		if node == nil {
+			return true
+		}
+		if !visit(node.data) {
+			return false
+		}
+		if !preOrder(node.left) {
+			return false
+		}
+		return preOrder(node.right)
+	}
+
+	preOrder(t.root)
 }
 
 // PostOrder traverses the tree in post-order (left → right → root).
@@ -457,5 +589,19 @@ func (t *BinarySearchTree[E]) PostOrder(visit func(E) bool) {
 	//       1) recurse left
 	//       2) recurse right
 	//       3) visit node last
-	panic("todo: please implement me!")
+	var postOrder func(*Node[E]) bool
+	postOrder = func(node *Node[E]) bool {
+		if node == nil {
+			return true
+		}
+		if !postOrder(node.left) {
+			return false
+		}
+		if !postOrder(node.right) {
+			return false
+		}
+		return visit(node.data)
+	}
+
+	postOrder(t.root)
 }
